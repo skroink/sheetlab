@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Collectable;
+use App\Models\Collection;
 use App\Models\Schemas\Sheet;
 use App\Models\Template;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -15,8 +17,24 @@ class Controller extends BaseController
 
     public function index()
     {
+        $schema = new Sheet(['name' => "tt"]);
+        $schema->save();
+
+        $collection = new Collection(["name" => "character sheets"]);
+        $collection->save();
+
+        $collectable = new Collectable();
+        $collectable->schema()->associate($schema);
+        $collectable->collection()->associate($collection);
+        $collectable->save();
 
 
+
+        return Collection::first();
+        die();
+
+
+        return Collection::first()->collectables()->get();
 
 
 //        $string = "15>=15";
